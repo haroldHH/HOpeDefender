@@ -28,8 +28,9 @@ You can look at the examples about how to use this program in 'samples' folder
 * This program only works by using a browser that supports DOMParser API
 * Look at the comment in HOpeDefender.js for more information
 
-## Version 0.0.1
-In version 0.0.1, this program provides basic sanitizer, filter, sandboxed sanitizer, framework's gadget filter.
+## Version
+
+   * In version 0.0.1, this program provides basic sanitizer, filter, sandboxed sanitizer, framework's gadget filter.
 
 ## License
 
