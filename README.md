@@ -1,6 +1,6 @@
 # HOpeDefender
 
-HOpeDefender.js, manual client side security program with javascript. This is a free and open source program.
+HOpeDefender.js, manual & simple client side security program written in javascript. This program is a free and open source program.
 
 ## Sanitizing & filtering
 
@@ -16,7 +16,7 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
 
 ## Features of HOpeDefender.js
 
-HOpeDefender has 2 main features which are sanitizing and filtering inputs to prevent XSS
+HOpeDefender.js has 2 main features which are sanitizing and filtering inputs to prevent XSS
 
 ## Usage
 
@@ -34,4 +34,4 @@ You can look at the examples about how to use this program in 'samples' folder
 
 ## License
 
-MIT License
+[MIT License](https://github.com/haroldHH/HOpeDefender/LICENSE.txt)
