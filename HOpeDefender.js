@@ -109,13 +109,13 @@ class HOpeDefender{
 	/*
 	 * Call this function to sanitize your input ( This function will return the sanitized version of your input )
 	 *
-	 * NOTE : There 4 types of block => - BLOCK_JAVASCRIPT, to block javascript uri in href attribute
-	 *                                  - FORCE_HTTP, force the uri scheme in href attribute to be http ( by appending 'http://' at the start of href )
-	 *                                  - FORCE_HTTPS, force the uri scheme in href attribute to be https
-	 *                                  - FORCE_FTP, force the uri scheme in href attribute to be ftp
+	 * NOTE : There 4 types of scheme configuration => - BLOCK_JAVASCRIPT, to block javascript uri in href attribute
+	 *                                                 - FORCE_HTTP, force the uri scheme in href attribute to be http ( by appending 'http://' at the start of href )
+	 *                                                 - FORCE_HTTPS, force the uri scheme in href attribute to be https
+	 *                                                 - FORCE_FTP, force the uri scheme in href attribute to be ftp
 	 */
-	sanitize(data, block_type, _sanitizeFrameworkCheck){
-		if(_sanitizeFrameworkCheck == false){
+	sanitize(data, scheme_configuration, check_framework_gadget){
+		if(check_framework_gadget == false){
 			this.valid_attributes = this.valid_attributes.concat(this.invalid_attributes_angularjs, this.invalid_bootstrap_bootstrap);
 		}
 		/*
@@ -146,13 +146,13 @@ class HOpeDefender{
 							b.body.children[aaa].removeAttribute(c[j].toLowerCase());
 						}
 						if(c[j].toLowerCase() == "href"){
-							if (block_type != ""){
+							if (scheme_configuration != ""){
 								var xxyy = b.body.children[aaa].href;
-								xxyy = this.blockType(xxyy, block_type);
+								xxyy = this.blockType(xxyy, scheme_configuration);
 								b.body.children[aaa].href = xxyy;
 							}
 						}
-						if(_sanitizeFrameworkCheck != false){
+						if(check_framework_gadget != false){
 							var yyzz = this.checkFrameworkGadget(c[j].toLowerCase());
 							if(yyzz == false){
 								b.body.children[aaa].removeAttribute(c[j].toLowerCase());
@@ -162,7 +162,7 @@ class HOpeDefender{
 					// If there are children inside the tags, traverse all the children and sanitize them
 					if(b.body.children[aaa].childElementCount !== 0){
 						for(var o=0; o<total_child1; o++){
-							this.recursiveChildSanitize(b.body.children[o], block_type);
+							this.recursiveChildSanitize(b.body.children[o], scheme_configuration);
 						}
 					}
 					aaa += 1;
@@ -177,10 +177,10 @@ class HOpeDefender{
 	 * NOTE : You are just allowed to style the iframe, not your input.
 	 *
 	 */
-	sandboxedSanitizing(data, block_type, styling){
+	sandboxedSanitizing(data, scheme_configuration, css_styling){
 		// Sanitize the data / input
-		if (block_type != "") {
-	 		var aabb = this.sanitize(data, block_type);
+		if (scheme_configuration != "") {
+	 		var aabb = this.sanitize(data, scheme_configuration);
 	 	}else{
 	 		var aabb = this.sanitize(data);
 	 	}
@@ -188,8 +188,8 @@ class HOpeDefender{
 	 	var bbcc = document.createElement('iframe');
 	 	// Enable sandboxing
 	 	bbcc.sandbox = "";
-	 	// Styling the iframe
-	 	bbcc.style = styling;
+	 	// css_styling the iframe
+	 	bbcc.style = css_styling;
 	 	// Put the sanitized code inside the sandboxed iframe
 	 	bbcc.srcdoc = aabb;
 	 	// Return the sandboxed iframe that contains the sanitized data ( object )
@@ -197,7 +197,7 @@ class HOpeDefender{
 	 }
 
 	/*
-	 * DO NOT CHANGE / MODIFY THESE FUNCTIONS IF YOU DONT KNOW HOW THEY WORKS AND HOW TO MODIFY THEM *
+	 * DO NOT CHANGE / MODIFY THESE FUNCTIONS BELOW IF YOU DONT KNOW HOW THEY WORKS AND HOW TO MODIFY THEM
 	 *
 	 */
 
@@ -205,7 +205,7 @@ class HOpeDefender{
 	 * This function will traverse all tags and remove invalid tags and attributes
 	 *
 	 */
-	recursiveChildSanitize(parentObject, block_type, _sanitizeFrameworkCheck){
+	recursiveChildSanitize(parentObject, scheme_configuration, check_framework_gadget){
 		// Base case ( If there is no child )
 		if(parentObject.childElementCount == 0){
 			// Remove all invalid attributes
@@ -217,14 +217,14 @@ class HOpeDefender{
 				}
 				// Manage the block type for href attribute
 				if(aa[jj].toLowerCase() == "href"){
-					if (block_type != "") {
+					if (scheme_configuration != "") {
 						var xxyy = parentObject.href;
-						xxyy = this.blockType(xxyy, block_type);
+						xxyy = this.blockType(xxyy, scheme_configuration);
 						parentObject.href = xxyy;
 					}
 				}
 				// Check some frameworks' gadgets and remove them
-				if(_sanitizeFrameworkCheck != false){
+				if(check_framework_gadget != false){
 					var zzaa = this.checkFrameworkGadget(aa[jj]);
 					if(zzaa == false){
 						parentObject.removeAttribute(aa[jj]);
@@ -255,13 +255,13 @@ class HOpeDefender{
 								parentObject.children[aa].removeAttribute(p[q].toLowerCase());
 							}
 							if(p[q].toLowerCase() == "href"){
-								if (block_type != "") {
+								if (scheme_configuration != "") {
 									var xxyy = parentObject.children[aa].href;
-									xxyy = this.blockType(xxyy, block_type);
+									xxyy = this.blockType(xxyy, scheme_configuration);
 									parentObject.children[aa].href = xxyy;
 								}
 							}
-							if(_sanitizeFrameworkCheck != false){
+							if(check_framework_gadget != false){
 								var yzab = this.checkFrameworkGadget(p[q]);
 								if(yzab == false){
 									parentObject.children[aa].removeAttribute(p[q]);
@@ -300,8 +300,8 @@ class HOpeDefender{
 	 * This function will block / force urls
 	 *
 	 */
-	blockType(data, block_type){
-		switch(block_type){
+	blockType(data, scheme_configuration){
+		switch(scheme_configuration){
 			case "BLOCK_JAVASCRIPT":
 				var jjkk = data;
 				jjkk = jjkk.replace(/^javascript(\s)*:(\s)*/, "[blocked]:");
