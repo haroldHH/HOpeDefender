@@ -24,7 +24,7 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
 
 ## Documentation
 
-   The documentation is not available yet
+   Look at my [wiki](https://github.com/haroldHH/HOpeDefender/wiki) for the documentation of this project
 
 ## NOTE
 
@@ -34,7 +34,7 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
 
 ## Version
 
-   * In version 0.0.1, this program provides basic sanitizer, filter, sandboxed sanitizer, framework's gadget filter.
+   * In version 0.0.1, this program provides basic sanitizer, filter, sandboxed sanitizer, framework's gadget filter
 
 ## License
 
