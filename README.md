@@ -36,6 +36,10 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
 
    Click [here](https://github.com/haroldHH/HOpeDefender/blob/master/VERSIONS.md) to check te versions' description
 
+## Releases
+
+   Click [here](https://github.com/haroldHH/HOpeDefender/releases) to check the releases
+
 ## License
 
    [MIT License](https://github.com/haroldHH/HOpeDefender/blob/master/LICENSE.txt)
