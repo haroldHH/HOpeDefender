@@ -49,14 +49,17 @@ SOFTWARE.
 				// Create a new object
 				var code_ = new HOpeDefender();
 				// Run the features
-				var a = code_.sanitize(document.getElementById("input1").value, "BLOCK_JAVASCRIPT", false);  // Make sure for block type is a string
-				var b = code_.filter(document.getElementById("input2").value);
+				var a = code_.sanitize(document.getElementById("input1").value, "BLOCK_JAVASCRIPT");  // Make sure for scheme configuration is a string
+				var b = code_.sanitize(document.getElementById("input2").value, "BLOCK_JAVASCRIPT")
+				b = code_.sanitizeValidAtrributes(b);
+				var c = code_.filter(document.getElementById("input3").value);
 				/*
 				 * Print all the results to the div tags
 				 *
 				 */
 				 document.getElementById("input1").value = a;
 				 document.getElementById("input2").value = b;
+				 document.getElementById("input3").value = c;
 				 document.getElementById("myForm").submit();
 			}
 		</script>
@@ -79,10 +82,18 @@ SOFTWARE.
 				</tr>
 				<tr>
 					<td>
-						Filter : 
+						Sanitize with valid attribute sanitizer : 
 					</td>
 					<td>
 						<input type="text" id="input2" name="data2" size="140"><br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Filter : 
+					</td>
+					<td>
+						<input type="text" id="input3" name="data3" size="140"><br>
 					</td>
 				</tr>
 				<tr>
@@ -95,9 +106,10 @@ SOFTWARE.
 			</form>
 		</table><br><br>
 		<?php
-			if (isset($_GET['data1']) or isset($_GET['data2'])){
+			if (isset($_GET['data1']) or isset($_GET['data2']) oe isset($_GET['data3'])){
 				print "<div>".$_GET['data1']."</div><br>\n";
 				print "<div>".$_GET['data2']."</div><br>\n";
+				print "<div>".$_GET['data3']."</div><br>\n";
 			}
 		?>
 		<!-- You can add the script below to make sure that the client runs / has the HOpeDefender.js file to prevent SELF XSS -->

@@ -61,10 +61,18 @@ SOFTWARE.
 				</tr>
 				<tr>
 					<td>
-						Filter : 
+						Sanitize with valid attribute sanitizer :  
 					</td>
 					<td>
 						<input type="text" name="data2" size="140"><br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Filter : 
+					</td>
+					<td>
+						<input type="text" name="data3" size="140"><br>
 					</td>
 				</tr>
 				<tr>
@@ -77,12 +85,14 @@ SOFTWARE.
 			</form>
         </table><br><br>
         <div id="result1"></div><br>
-        <div id="result2"></div>
+		<div id="result2"></div><br>
+		<div id="result3"></div>
 		<?php
-			if (isset($_GET['data1']) or isset($_GET['data2'])){
+			if (isset($_GET['data1']) or isset($_GET['data2']) or isset($_GET['data3'])){
                 // To prevent XSS via javascript context, you need to filter ' character
                 $data1 = str_replace("'", "\"", $_GET['data1']);
-                $data2 = str_replace("'", "\"", $_GET['data1']);
+				$data2 = str_replace("'", "\"", $_GET['data2']);
+				$data3 = str_replace("'", "\"", $_GET['data3']);
                 print "
             <!-- You can add the script below to make sure that the client runs / has the HOpeDefender.js file to prevent SELF XSS -->
             <script>
@@ -95,14 +105,17 @@ SOFTWARE.
                 // Create a new object
 				var code_ = new HOpeDefender();
 				// Run the features
-				var a = code_.sanitize('".$data1."', 'BLOCK_JAVASCRIPT', false);  // Make sure for block type is a string
-				var b = code_.filter('".$data2."');
+				var a = code_.sanitize('".$data1."', 'BLOCK_JAVASCRIPT');  // Make sure for block type is a string
+				var b = code_.sanitize('".$data2."', 'BLOCK_JAVASCRIPT');
+				b = code_.sanitizeValidAttributes(b);
+				var c = code_.filter('".$data3."');
 				/*
 				 * Print all the results to the div tags
 				 *
 				 */
 				document.getElementById('result1').innerHTML = a;
 				document.getElementById('result2').innerHTML = b;
+				document.getElementById('result3').innerHTML = c;
             </script>";
 			}
 		?>
