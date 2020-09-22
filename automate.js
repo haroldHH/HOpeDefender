@@ -31,7 +31,7 @@ SOFTWARE.
  *
  * Author : Harold H.
  *
- * Version : 0.0.2
+ * Version : 0.0.3
  *
  * Usage : There are 2 classes and 2 ids for this automated tools, which are => inputSanitize, inputFilter, submitForm, HCSSForm. HTML tags that have class name 'inputSanitize'
  *         will be sanitized using HOpeDefender.sanitize() before submitting the request. HTML tags that have class name 'inputFilter' will be filtered using HOpeDefender.filter()

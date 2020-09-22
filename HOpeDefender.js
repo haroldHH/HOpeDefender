@@ -31,7 +31,7 @@ SOFTWARE.
  *
  * Author : Harold H.
  *
- * Version : 0.0.2
+ * Version : 0.0.3
  * 
  * FAQ / Q&A  :  1. How it works? - For sanitizer, this program will create a DOMParser class, traverse all the html tags and remove dangerous tags & attributes
  *                                - For filter, this program will encode the input with HTML entities by using a textarea element
@@ -96,7 +96,7 @@ class HOpeDefender{
 		this.invalid_attributes_angularjs = ["ng-app"];
 	}
 	/*
-	 * Call this function to filter / encode your input with htmlentities
+	 * Call this method to filter / encode your input with htmlentities
 	 *
 	 */
 	filter(data){
@@ -108,7 +108,7 @@ class HOpeDefender{
 		return ccdd.innerHTML;
 	}
 	/*
-	 * Call this function to sanitize your input ( This function will return the sanitized version of your input )
+	 * Call this method to sanitize your input ( This function will return the sanitized version of your input )
 	 *
 	 * NOTE : There 4 types of scheme configuration => - BLOCK_JAVASCRIPT, to block javascript uri in href attribute
 	 *                                                 - FORCE_HTTP, force the uri scheme in href attribute to be http ( by appending 'http://' at the start of href )
@@ -208,14 +208,31 @@ class HOpeDefender{
 	 	// Return the sandboxed iframe that contains the sanitized data ( object )
 	 	return bbcc;
 	 }
-
+	 /*
+	  * Call this function to sanitize your valid attributes' value
+	  *
+	  * NOTE : It's better to run sanitize() then run this method, because this method
+	  * 
+	  */
+	sanitizeValidAttributes(data){
+		var _bb = new DOMParser().parseFromString(data, "text/html");
+		var _total_child = _bb.body.childElementCount;
+		for (var index=0; index<_total_child; index++) {
+			debugger;
+			if(_bb.body.children[index].childElementCount >= 0){
+				debugger;
+				this.recursiveChildSanitizeValidAttribute(_bb.body.children[index]);
+			}
+		}
+		return _bb.body.innerHTML;
+	}
 	/*
-	 * DO NOT CHANGE / MODIFY THESE FUNCTIONS BELOW IF YOU DONT KNOW HOW THEY WORKS AND HOW TO MODIFY THEM
+	 * DO NOT CHANGE / MODIFY THESE METHODS BELOW IF YOU DONT KNOW HOW THEY WORKS AND HOW TO MODIFY THEM
 	 *
 	 */
 
 	/*
-	 * This function will traverse all tags and remove invalid tags and attributes
+	 * This method will traverse all tags and remove invalid tags and attributes
 	 *
 	 */
 	recursiveChildSanitize(parentObject, scheme_configuration, check_framework_gadget){
@@ -316,7 +333,33 @@ class HOpeDefender{
 		}
 	}
 	/*
-	 * This function will check for invalid frameworks' gadgets
+	 * This method will traverse all tags and sanitize the valid attributes' value
+	 * 
+	 */
+	recursiveChildSanitizeValidAttribute(parentObject){
+		if(parentObject.childElementCount == 0){
+			var _aa = parentObject.getAttributeNames();
+			for(var index=0; index<_aa.length; index++){
+				var attr_name = _aa[index].valueOf();
+				parentObject.setAttribute(attr_name, this.sanitize(parentObject.getAttribute(attr_name), "", false));
+			}
+			debugger;
+			return;
+		}else{
+			var _aa = parentObject.getAttributeNames();
+			for(var index=0; index<_aa.length; index++){
+				var attr_name = _aa[index].valueOf();
+				parentObject.setAttribute(attr_name, this.sanitize(parentObject.getAttribute(attr_name), "", false));
+			}
+			debugger;
+			for(var _index=0; _index<parentObject.childElementCount; _index++){
+				debugger;
+				this.recursiveChildSanitizeValidAttribute(parentObject.children[_index]);
+			}
+		}
+	}
+	/*
+	 * This method will check for invalid frameworks' gadgets
 	 *
 	 */
 	checkFrameworkGadget(_gadget_name){
@@ -334,7 +377,7 @@ class HOpeDefender{
 		}
 	}
 	/*
-	 * This function will block / force schemes
+	 * This method will block / force schemes
 	 *
 	 */
 	blockType(data, scheme_configuration){

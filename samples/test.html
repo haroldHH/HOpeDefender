@@ -37,6 +37,7 @@ SOFTWARE.
 				var code_ = new HOpeDefender();
 				// Run all features
 				var a = code_.sanitize(document.getElementById("input1").value, "", false); // Make sure for block type is a string ( If you dont want to add a block type, just put an empty string )
+				var e = code_.sanitizeValidAttributes(a); // Sanitize the valid attributes' value
 				var b = code_.sandboxedSanitizing(document.getElementById("input2").value, "font-size: 40px;border: 0px none;");
 				var c = code_.filter(document.getElementById("input3").value);
 				var d = code_.sanitize(document.getElementById("input4").value, "FORCE_HTTPS", true); // Sanitize framework gadget
@@ -47,6 +48,7 @@ SOFTWARE.
 				 *
 				 */
 				document.getElementById("resultSanitize").innerHTML = a;
+				document.getElementById("resultSanitizeAttributes").innerHTML = e;
 				document.getElementById("resultSandboxedSanitize").appendChild(b);
 				document.getElementById("resultFilter").innerHTML = c;
 				document.getElementById("resultFramework").innerHTML = d;
@@ -98,10 +100,11 @@ SOFTWARE.
 				</td>
 			</tr>
 		</table><br>
-		<div id="resultSanitize"></div><br>
-		<div id="resultSandboxedSanitize"></div><br>
-		<div id="resultFilter"></div><br>
-		<div id="resultFramework"></div>
+		Sanitize only : <div id="resultSanitize"></div><br>
+		Sanitize & sanitize valid attributes: <div id="resultSanitizeAttributes"></div><br>
+		Sandboxed sanitizer : <div id="resultSandboxedSanitize"></div><br>
+		Filter : <div id="resultFilter"></div><br>
+		Sanitize & check the framework gadget : <div id="resultFramework"></div>
 		<!-- You can add the script below to make sure that the client runs / has the HOpeDefender.js file to prevent SELF XSS -->
 		<script>
 			if (!HOpeDefender_is_present){
