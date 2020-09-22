@@ -79,6 +79,7 @@ class HOpeDefender{
 		 *
 		 */
 		this.valid_attributes = ["style", "src", "href", "name", "id", "class", "title"];
+		this.valid_attributes2 = [].concat(this.valid_attributes);
 		this.valid_html_tags = [
 			"table", "tr", "th", "td", "br", "keyboard", "form","tbody", "h1",
 			"input", "div", "span", "b", "u", "s", "p", "img", "a", "li", "ul", "ol"
@@ -142,27 +143,39 @@ class HOpeDefender{
 				}else{
 					var c = b.body.children[aaa].getAttributeNames();
 					for(var j=0; j<c.length; j++){
-						if(!this.valid_attributes.includes(c[j].toLowerCase())){
-							b.body.children[aaa].removeAttribute(c[j].toLowerCase());
-						}
-						if(c[j].toLowerCase() == "href"){
-							if (scheme_configuration != ""){
-								var xxyy = b.body.children[aaa].href;
-								xxyy = this.blockType(xxyy, scheme_configuration);
-								b.body.children[aaa].href = xxyy;
-							}
-						}
-						if(check_framework_gadget != false){
-							var yyzz = this.checkFrameworkGadget(c[j].toLowerCase());
-							if(yyzz == false){
+						// Remove the invalid attributes
+						if(check_framework_gadget == true){
+							if(!this.valid_attributes2.includes(c[j].toLowerCase())){
 								b.body.children[aaa].removeAttribute(c[j].toLowerCase());
+							}else{
+								// Manage the scheme configuration for href attribute
+								if(c[j].toLowerCase() == "href"){
+									if (scheme_configuration != ""){
+										var xxyy = b.body.children[aaa].href;
+										xxyy = this.blockType(xxyy, scheme_configuration);
+										b.body.children[aaa].href = xxyy;
+									}
+								}
+							}
+						}else{
+							if(!this.valid_attributes.includes(c[j].toLowerCase())){
+								b.body.children[aaa].removeAttribute(c[j].toLowerCase());
+							}else{
+								// Manage the scheme configuration for href attribute
+								if(c[j].toLowerCase() == "href"){
+									if (scheme_configuration != ""){
+										var xxyy = b.body.children[aaa].href;
+										xxyy = this.blockType(xxyy, scheme_configuration);
+										b.body.children[aaa].href = xxyy;
+									}
+								}
 							}
 						}
 					}
 					// If there are children inside the tags, traverse all the children and sanitize them
 					if(b.body.children[aaa].childElementCount !== 0){
 						for(var o=0; o<total_child1; o++){
-							this.recursiveChildSanitize(b.body.children[o], scheme_configuration);
+							this.recursiveChildSanitize(b.body.children[o], scheme_configuration, check_framework_gadget);
 						}
 					}
 					aaa += 1;
@@ -180,9 +193,9 @@ class HOpeDefender{
 	sandboxedSanitizing(data, scheme_configuration, css_styling){
 		// Sanitize the data / input
 		if (scheme_configuration != "") {
-	 		var aabb = this.sanitize(data, scheme_configuration);
+	 		var aabb = this.sanitize(data, scheme_configuration, "", false, false);
 	 	}else{
-	 		var aabb = this.sanitize(data);
+	 		var aabb = this.sanitize(data, "", "", false, false);
 	 	}
 	 	// Create an iframe
 	 	var bbcc = document.createElement('iframe');
@@ -208,26 +221,43 @@ class HOpeDefender{
 	recursiveChildSanitize(parentObject, scheme_configuration, check_framework_gadget){
 		// Base case ( If there is no child )
 		if(parentObject.childElementCount == 0){
-			// Remove all invalid attributes
 			var aa = parentObject.getAttributeNames();
 			for(var jj=0; jj<aa.length; jj++){
-				// Remove the invalid attributes
-				if(!this.valid_attributes.includes(aa[jj].toLowerCase())){
-					parentObject.removeAttribute(aa[jj].toLowerCase());
-				}
-				// Manage the block type for href attribute
-				if(aa[jj].toLowerCase() == "href"){
-					if (scheme_configuration != "") {
-						var xxyy = parentObject.href;
-						xxyy = this.blockType(xxyy, scheme_configuration);
-						parentObject.href = xxyy;
+				if(check_framework_gadget == true){
+					if(!this.valid_attributes2.includes(aa[jj].toLowerCase())){
+						parentObject.removeAttribute(aa[jj].toLowerCase());
+					}else{
+						if(aa[jj].toLowerCase() == "href"){
+							if (scheme_configuration != "") {
+								var xxyy = parentObject.href;
+								xxyy = this.blockType(xxyy, scheme_configuration);
+								parentObject.href = xxyy;
+							}
+						}
+						if(check_framework_gadget == true){
+							var zzaa = this.checkFrameworkGadget(aa[jj]);
+							if(zzaa == false){
+								parentObject.removeAttribute(aa[jj]);
+							}
+						}
 					}
-				}
-				// Check some frameworks' gadgets and remove them
-				if(check_framework_gadget != false){
-					var zzaa = this.checkFrameworkGadget(aa[jj]);
-					if(zzaa == false){
-						parentObject.removeAttribute(aa[jj]);
+				}else{
+					if(!this.valid_attributes.includes(aa[jj].toLowerCase())){
+						parentObject.removeAttribute(aa[jj].toLowerCase());
+					}else{
+						if(aa[jj].toLowerCase() == "href"){
+							if (scheme_configuration != "") {
+								var xxyy = parentObject.href;
+								xxyy = this.blockType(xxyy, scheme_configuration);
+								parentObject.href = xxyy;
+							}
+						}
+						if(check_framework_gadget == true){
+							var zzaa = this.checkFrameworkGadget(aa[jj]);
+							if(zzaa == false){
+								parentObject.removeAttribute(aa[jj]);
+							}
+						}
 					}
 				}
 			}
@@ -242,35 +272,42 @@ class HOpeDefender{
 					total_child -= 1;
 					flag = false;
 				}else{
-					// Remove all invalid children
 					if(!this.valid_html_tags.includes(parentObject.children[aa].tagName.toLowerCase())){
 						parentObject.removeChild(parentObject.children[aa]);
 						flag = true;
 						aa += 1;
 					}else{
-						// Remove all the children's invalid attributes
 						var p = parentObject.children[aa].getAttributeNames();
 						for(var q=0; q<p.length; q++){
-							if(!this.valid_attributes.includes(p[q].toLowerCase())){
-								parentObject.children[aa].removeAttribute(p[q].toLowerCase());
-							}
-							if(p[q].toLowerCase() == "href"){
-								if (scheme_configuration != "") {
-									var xxyy = parentObject.children[aa].href;
-									xxyy = this.blockType(xxyy, scheme_configuration);
-									parentObject.children[aa].href = xxyy;
+							if(check_framework_gadget == true){
+								if(!this.valid_attributes2.includes(p[q].toLowerCase())){
+									parentObject.children[aa].removeAttribute(p[q].toLowerCase());
+								}else{
+									if(p[q].toLowerCase() == "href"){
+										if (scheme_configuration != "") {
+											var xxyy = parentObject.children[aa].href;
+											xxyy = this.blockType(xxyy, scheme_configuration);
+											parentObject.children[aa].href = xxyy;
+										}
+									}
 								}
-							}
-							if(check_framework_gadget != false){
-								var yzab = this.checkFrameworkGadget(p[q]);
-								if(yzab == false){
-									parentObject.children[aa].removeAttribute(p[q]);
+							}else{
+								if(!this.valid_attributes.includes(p[q].toLowerCase())){
+									parentObject.children[aa].removeAttribute(p[q].toLowerCase());
+								}else{
+									if(p[q].toLowerCase() == "href"){
+										if (scheme_configuration != "") {
+											var xxyy = parentObject.children[aa].href;
+											xxyy = this.blockType(xxyy, scheme_configuration);
+											parentObject.children[aa].href = xxyy;
+										}
+									}
 								}
 							}
 						}
 						// Traverse all the children
 						if(parentObject.children[aa].childElementCount !== 0){
-							this.recursiveChildSanitize(parentObject.children[aa]);
+							this.recursiveChildSanitize(parentObject.children[aa], scheme_configuration, check_framework_gadget);
 						}
 						aa += 1;
 					}
@@ -279,7 +316,7 @@ class HOpeDefender{
 		}
 	}
 	/*
-	 * This function will check for invalid gadgets
+	 * This function will check for invalid frameworks' gadgets
 	 *
 	 */
 	checkFrameworkGadget(_gadget_name){
@@ -297,7 +334,7 @@ class HOpeDefender{
 		}
 	}
 	/*
-	 * This function will block / force urls
+	 * This function will block / force schemes
 	 *
 	 */
 	blockType(data, scheme_configuration){
