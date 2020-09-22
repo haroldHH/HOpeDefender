@@ -20,7 +20,13 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
 
 ## Usage
 
-   You can look at the examples about how to use this program in 'samples' folder
+   * You can look at the examples about how to use this program in 'samples' folder.
+
+   * If you want to use this program automatically without cloning the project, put this code below in your html
+
+   ```html
+   <script src='https://raw.githubusercontent.com/haroldHH/HOpeDefender/master/HOpeDefender.js'></script>
+   ```
 
 ## Documentation
 
