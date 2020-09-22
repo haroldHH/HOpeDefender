@@ -31,7 +31,7 @@ SOFTWARE.
  *
  * Author : Harold H.
  *
- * Version : 0.0.3
+ * Version : 0.0.4
  * 
  * FAQ / Q&A  :  1. How it works? - For sanitizer, this program will create a DOMParser class, traverse all the html tags and remove dangerous tags & attributes
  *                                - For filter, this program will encode the input with HTML entities by using a textarea element
@@ -79,21 +79,10 @@ class HOpeDefender{
 		 *
 		 */
 		this.valid_attributes = ["style", "src", "href", "name", "id", "class", "title"];
-		this.valid_attributes2 = [].concat(this.valid_attributes);
 		this.valid_html_tags = [
 			"table", "tr", "th", "td", "br", "keyboard", "form","tbody", "h1",
 			"input", "div", "span", "b", "u", "s", "p", "img", "a", "li", "ul", "ol"
 		];
-		/*
-		 * These are the blacklisted attributes in some tools / frameworks. for example, bootstrap and etc.
-		 * These blacklists used to mitigates XSS via gadgets from the tools / frameworks ( DOM XSS can't be prevented 100% ).
-		 * For DOM XSS cases, it depends on the web developer.
-		 *
-		 * NOTE : You can edit these blacklists for your own purposes.
-		 * 
-		 */
-		this.invalid_bootstrap_bootstrap = ["data-toogle", "data-html"];
-		this.invalid_attributes_angularjs = ["ng-app"];
 	}
 	/*
 	 * Call this method to filter / encode your input with htmlentities
@@ -110,15 +99,13 @@ class HOpeDefender{
 	/*
 	 * Call this method to sanitize your input ( This function will return the sanitized version of your input )
 	 *
-	 * NOTE : There 4 types of scheme configuration => - BLOCK_JAVASCRIPT, to block javascript uri in href attribute
-	 *                                                 - FORCE_HTTP, force the uri scheme in href attribute to be http ( by appending 'http://' at the start of href )
-	 *                                                 - FORCE_HTTPS, force the uri scheme in href attribute to be https
-	 *                                                 - FORCE_FTP, force the uri scheme in href attribute to be ftp
+	 * NOTE : There 5 types of scheme configuration => - BLOCK_JAVASCRIPT, block javascript scheme in href attribute
+	 *                                                 - FORCE_HTTP, force a http scheme in href attribute to be http ( by appending 'http://' at the start of href )
+	 *                                                 - FORCE_HTTPS, force a https scheme in href attribute to be https
+	 *                                                 - FORCE_FTP, force a ftp scheme in href attribute to be ftp
+	 *                                                 - BLOCK_FTP, block ftp scheme in href attribute
 	 */
-	sanitize(data, scheme_configuration, check_framework_gadget){
-		if(check_framework_gadget == false){
-			this.valid_attributes = this.valid_attributes.concat(this.invalid_attributes_angularjs, this.invalid_bootstrap_bootstrap);
-		}
+	sanitize(data, scheme_configuration){
 		/*
 		 * Create a DOMParser class and use html document mode
 		 *
@@ -143,31 +130,15 @@ class HOpeDefender{
 				}else{
 					var c = b.body.children[aaa].getAttributeNames();
 					for(var j=0; j<c.length; j++){
-						// Remove the invalid attributes
-						if(check_framework_gadget == true){
-							if(!this.valid_attributes2.includes(c[j].toLowerCase())){
-								b.body.children[aaa].removeAttribute(c[j].toLowerCase());
-							}else{
-								// Manage the scheme configuration for href attribute
-								if(c[j].toLowerCase() == "href"){
-									if (scheme_configuration != ""){
-										var xxyy = b.body.children[aaa].href;
-										xxyy = this.blockType(xxyy, scheme_configuration);
-										b.body.children[aaa].href = xxyy;
-									}
-								}
-							}
+						if(!this.valid_attributes.includes(c[j].toLowerCase())){
+							b.body.children[aaa].removeAttribute(c[j].toLowerCase());
 						}else{
-							if(!this.valid_attributes.includes(c[j].toLowerCase())){
-								b.body.children[aaa].removeAttribute(c[j].toLowerCase());
-							}else{
-								// Manage the scheme configuration for href attribute
-								if(c[j].toLowerCase() == "href"){
-									if (scheme_configuration != ""){
-										var xxyy = b.body.children[aaa].href;
-										xxyy = this.blockType(xxyy, scheme_configuration);
-										b.body.children[aaa].href = xxyy;
-									}
+							// Manage the scheme configuration for href attribute
+							if(c[j].toLowerCase() == "href"){
+								if (scheme_configuration != ""){
+									var xxyy = b.body.children[aaa].href;
+									xxyy = this.blockType(xxyy, scheme_configuration);
+									b.body.children[aaa].href = xxyy;
 								}
 							}
 						}
@@ -175,7 +146,7 @@ class HOpeDefender{
 					// If there are children inside the tags, traverse all the children and sanitize them
 					if(b.body.children[aaa].childElementCount !== 0){
 						for(var o=0; o<total_child1; o++){
-							this.recursiveChildSanitize(b.body.children[o], scheme_configuration, check_framework_gadget);
+							this.recursiveChildSanitize(b.body.children[o], scheme_configuration);
 						}
 					}
 					aaa += 1;
@@ -235,7 +206,7 @@ class HOpeDefender{
 	 * This method will traverse all tags and remove invalid tags and attributes
 	 *
 	 */
-	recursiveChildSanitize(parentObject, scheme_configuration, check_framework_gadget){
+	recursiveChildSanitize(parentObject, scheme_configuratio){
 		// Base case ( If there is no child )
 		if(parentObject.childElementCount == 0){
 			var aa = parentObject.getAttributeNames();
@@ -251,12 +222,6 @@ class HOpeDefender{
 								parentObject.href = xxyy;
 							}
 						}
-						if(check_framework_gadget == true){
-							var zzaa = this.checkFrameworkGadget(aa[jj]);
-							if(zzaa == false){
-								parentObject.removeAttribute(aa[jj]);
-							}
-						}
 					}
 				}else{
 					if(!this.valid_attributes.includes(aa[jj].toLowerCase())){
@@ -267,12 +232,6 @@ class HOpeDefender{
 								var xxyy = parentObject.href;
 								xxyy = this.blockType(xxyy, scheme_configuration);
 								parentObject.href = xxyy;
-							}
-						}
-						if(check_framework_gadget == true){
-							var zzaa = this.checkFrameworkGadget(aa[jj]);
-							if(zzaa == false){
-								parentObject.removeAttribute(aa[jj]);
 							}
 						}
 					}
@@ -359,24 +318,6 @@ class HOpeDefender{
 		}
 	}
 	/*
-	 * This method will check for invalid frameworks' gadgets
-	 *
-	 */
-	checkFrameworkGadget(_gadget_name){
-		// Remove bootstrap's gadgets
-		for (var index=0; index < this.invalid_bootstrap_bootstrap.length; index++){
-			if(!this.invalid_bootstrap_bootstrap.includes(_gadget_name)){
-				return false;
-			}
-		}
-		// Remove angularjs's gadgets
-		for (var index=0; index < this.invalid_attributes_angularjs.length; index++){
-			if(!this.invalid_attributes_angularjs.includes(_gadget_name)){
-				return false;
-			}
-		}
-	}
-	/*
 	 * This method will block / force schemes
 	 *
 	 */
@@ -397,6 +338,11 @@ class HOpeDefender{
 				jjkk = "https://" + jjkk;
 				data = jjkk;
 				break;
+			case "BLOCK_FTP":
+				var jjkk = data;
+				jjkk = jjkk.replace(/^ftp(\s)*:(\s)*/, "[blocked]:");
+				data = jjkk;
+				break;
 			case "FORCE_FTP":
 				var jjkk = data;
 				jjkk = "ftp://" + jjkk;
@@ -405,3 +351,6 @@ class HOpeDefender{
 		return data;
 	}
 }
+
+// Look at your console and find this message below
+console.log("[+] HOpeDefender.js available");
