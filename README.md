@@ -32,9 +32,9 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
    * This program only works by using a browser that supports DOMParser API
    * Look at the comment in HOpeDefender.js for more information
 
-## Version
+## Versions
 
-   Click [here](https://github.com/haroldHH/HOpeDefender/blob/master/VERSION.md) to check te versions' description
+   Click [here](https://github.com/haroldHH/HOpeDefender/blob/master/VERSIONS.md) to check te versions' description
 
 ## License
 
