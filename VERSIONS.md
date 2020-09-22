@@ -2,6 +2,7 @@
 
 This is the description for each version of HOpeDefender.js \:
 
+* In version 0.1.0, the basic program has been done
 * In version 0.0.4, remove gadgets checker and add a new scheme configuration
 * In version 0.0.3, add new feature 'sanitizeValidAttributes'
 * In version 0.0.2, repair some bugs

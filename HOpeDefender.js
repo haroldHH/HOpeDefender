@@ -31,7 +31,7 @@ SOFTWARE.
  *
  * Author : Harold H.
  *
- * Version : 0.0.4
+ * Version : 0.1.0
  * 
  * FAQ / Q&A  :  1. How it works? - For sanitizer, this program will create a DOMParser class, traverse all the html tags and remove dangerous tags & attributes
  *                                - For filter, this program will encode the input with HTML entities by using a textarea element
@@ -353,4 +353,4 @@ class HOpeDefender{
 }
 
 // Look at your console and find this message below
-console.log("[+] HOpeDefender.js is available");
+console.log("[+] HOpeDefender.js version 0.1.0 is available");
