@@ -353,4 +353,4 @@ class HOpeDefender{
 }
 
 // Look at your console and find this message below
-console.log("[+] HOpeDefender.js available");
+console.log("[+] HOpeDefender.js is available");

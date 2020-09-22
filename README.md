@@ -25,7 +25,19 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
    * If you want to use this program automatically without cloning the project, put this code below in your html
 
    ```html
-   <script src='https://raw.githubusercontent.com/haroldHH/HOpeDefender/master/HOpeDefender.js'></script>
+   <script>
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var result = this.responseText;
+            var hjs = document.createElement('script');
+            hjs.innerHTML = result;
+            document.body.appendChild(hjs);
+         }
+      };
+      xhttp.open("GET", "https://raw.githubusercontent.com/haroldHH/HOpeDefender/master/HOpeDefender.js");
+      xhttp.send();
+   </script>
    ```
 
 ## Documentation
