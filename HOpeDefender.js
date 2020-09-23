@@ -1,31 +1,4 @@
 /*
-
-MIT License
-
-Copyright (c) 2020 Harold H.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-*/
-
-/*
- * [ Sorry for my bad english because english is not my native ]
  *
  * Program : HOpeDefender.js, manual client side security program with javascript
  *
@@ -33,33 +6,7 @@ SOFTWARE.
  *
  * Version : 0.1.0
  * 
- * FAQ / Q&A  :  1. How it works? - For sanitizer, this program will create a DOMParser class, traverse all the html tags and remove dangerous tags & attributes
- *                                - For filter, this program will encode the input with HTML entities by using a textarea element
- *
- *               2. Why i'm using DOMParser? DOMParser interprets the input as a real document ( in an environment that allows javascript but doesn't
- *                  execute javascript on the active window / web page. If you put a script tag inside DOMParser, DOMParser can parse / use / access the
- *                  script tag but doesn't run / execute it ).
- *
- *               3. Why this program called manual client side security program? Because you dont need to install any 3rd party libraries to run this program.
- *                  Just run it manually using a script tag in your html code and this program was written by me manually.
- *
- *               4. Does this program works 100% safely? No, maybe there are bugs in the parser because of some inputs ( eg: mutation XSS, and etc. )
- *                  or even bugs on the source code.
- *
- *               5. The main goal of this program? This program mainly created by me to share some knowledges to other programmers about javascript,
- *                  parser, and how sanitizing / filtering works.
- *
- *               6. How many features in this program? There are 3 features which are sanitization, sandboxed sanitization, and filterization.
- *
- *               7. Advantages of this program? - You can use / learn this program easily
- *                                              - You can use this program to sanitize / filter the result of an ajax request ( in case of asynchronous request )
- *                                              - This program is really small
- *
- *               8. Disadavantages of this program? - There are bunch of better programs out there for sanitizing / filtering
- *                                                  - This program runs really slow for complex tags / input ( in case of sanitizing, not filtering )
- *
- *
- * NOTE : This program works for client side.
+ * License : https://github.com/haroldHH/HOpeDefender/blob/master/LICENSE.txt
  *
  */
 
