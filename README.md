@@ -39,6 +39,34 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
       xhttp.send();
    </script>
    ```
+   ### NOTE
+       Put the code above below the body tag
+       
+       ```html
+       <html>
+         <head>
+            <!-- Anything -->
+         </head>
+         <body>
+            <script>
+               var xhttp = new XMLHttpRequest();
+               xhttp.onreadystatechange = function() {
+                  if (this.readyState == 4 && this.status == 200) {
+                     var result = this.responseText;
+                     var hjs = document.createElement('script');
+                     hjs.innerHTML = result;
+                     document.body.appendChild(hjs);
+                  }
+               };
+               xhttp.open("GET", "https://raw.githubusercontent.com/haroldHH/HOpeDefender/master/HOpeDefender.js");
+               xhttp.send();
+            </script>
+            <!--
+               Anything you want to do
+            -->
+         </body>
+       </html>
+       ```
 
 ## Documentation
 
