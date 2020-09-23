@@ -40,7 +40,7 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
    </script>
    ```
 
-   * NOTE : Put the code above below the body tag
+   * NOTE : Put the code above below a body tag. This technique allows you to run HOpeDefender.js without CDN.
        
        ```html
        <html>
