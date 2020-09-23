@@ -27,8 +27,8 @@ class HOpeDefender{
 		 */
 		this.valid_attributes = ["style", "src", "href", "name", "id", "class", "title"];
 		this.valid_html_tags = [
-			"table", "tr", "th", "td", "br", "keyboard", "form","tbody", "h1",
-			"input", "div", "span", "b", "u", "s", "p", "img", "a", "li", "ul", "ol"
+			"h1", "h2", "h3", "h4", "h5", "h6", "hr", "br", "textarea",
+			"div", "span", "b", "u", "s", "p", "img", "a", "li", "ul", "ol"
 		];
 	}
 	/*
