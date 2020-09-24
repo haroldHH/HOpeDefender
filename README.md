@@ -4,7 +4,7 @@ HOpeDefender.js, manual & simple client side security program written in javascr
 
 ## Sanitizing & filtering
 
-This is the difference of sanitizing and filtering
+This is the difference between sanitizing and filtering
 
 ```text
 Sanitizing : <img src=x onerror=alert(1)> -- becomes --> <img src=x>
