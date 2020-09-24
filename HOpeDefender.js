@@ -136,9 +136,7 @@ class HOpeDefender{
 		var _bb = new DOMParser().parseFromString(data, "text/html");
 		var _total_child = _bb.body.childElementCount;
 		for (var index=0; index<_total_child; index++) {
-			debugger;
 			if(_bb.body.children[index].childElementCount >= 0){
-				debugger;
 				this.recursiveChildSanitizeValidAttribute(_bb.body.children[index]);
 			}
 		}
@@ -249,7 +247,6 @@ class HOpeDefender{
 				var attr_name = _aa[index].valueOf();
 				parentObject.setAttribute(attr_name, this.sanitize(parentObject.getAttribute(attr_name), "", false));
 			}
-			debugger;
 			return;
 		}else{
 			var _aa = parentObject.getAttributeNames();
@@ -257,9 +254,7 @@ class HOpeDefender{
 				var attr_name = _aa[index].valueOf();
 				parentObject.setAttribute(attr_name, this.sanitize(parentObject.getAttribute(attr_name), "", false));
 			}
-			debugger;
 			for(var _index=0; _index<parentObject.childElementCount; _index++){
-				debugger;
 				this.recursiveChildSanitizeValidAttribute(parentObject.children[_index]);
 			}
 		}
