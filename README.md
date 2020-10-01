@@ -72,7 +72,7 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
 
    Look at my [wiki](https://github.com/haroldHH/HOpeDefender/wiki) for the documentation of this project
 
-## NOTE
+## NOTES
 
    * When you are testing the files in 'samples' folder, make sure to change the path of 'HOpeDefender.js' in the script tag
    * This program only works by using a browser that supports DOMParser API
