@@ -156,28 +156,14 @@ class HOpeDefender{
 		if(parentObject.childElementCount == 0){
 			var aa = parentObject.getAttributeNames();
 			for(var jj=0; jj<aa.length; jj++){
-				if(check_framework_gadget == true){
-					if(!this.valid_attributes2.includes(aa[jj].toLowerCase())){
-						parentObject.removeAttribute(aa[jj].toLowerCase());
-					}else{
-						if(aa[jj].toLowerCase() == "href"){
-							if (scheme_configuration != "") {
-								var xxyy = parentObject.href;
-								xxyy = this.blockType(xxyy, scheme_configuration);
-								parentObject.href = xxyy;
-							}
-						}
-					}
+				if(!this.valid_attributes.includes(aa[jj].toLowerCase())){
+					parentObject.removeAttribute(aa[jj].toLowerCase());
 				}else{
-					if(!this.valid_attributes.includes(aa[jj].toLowerCase())){
-						parentObject.removeAttribute(aa[jj].toLowerCase());
-					}else{
-						if(aa[jj].toLowerCase() == "href"){
-							if (scheme_configuration != "") {
-								var xxyy = parentObject.href;
-								xxyy = this.blockType(xxyy, scheme_configuration);
-								parentObject.href = xxyy;
-							}
+					if(aa[jj].toLowerCase() == "href"){
+						if (scheme_configuration != "") {
+							var xxyy = parentObject.href;
+							xxyy = this.blockType(xxyy, scheme_configuration);
+							parentObject.href = xxyy;
 						}
 					}
 				}
@@ -200,28 +186,14 @@ class HOpeDefender{
 					}else{
 						var p = parentObject.children[aa].getAttributeNames();
 						for(var q=0; q<p.length; q++){
-							if(check_framework_gadget == true){
-								if(!this.valid_attributes2.includes(p[q].toLowerCase())){
-									parentObject.children[aa].removeAttribute(p[q].toLowerCase());
-								}else{
-									if(p[q].toLowerCase() == "href"){
-										if (scheme_configuration != "") {
-											var xxyy = parentObject.children[aa].href;
-											xxyy = this.blockType(xxyy, scheme_configuration);
-											parentObject.children[aa].href = xxyy;
-										}
-									}
-								}
+							if(!this.valid_attributes.includes(p[q].toLowerCase())){
+								parentObject.children[aa].removeAttribute(p[q].toLowerCase());
 							}else{
-								if(!this.valid_attributes.includes(p[q].toLowerCase())){
-									parentObject.children[aa].removeAttribute(p[q].toLowerCase());
-								}else{
-									if(p[q].toLowerCase() == "href"){
-										if (scheme_configuration != "") {
-											var xxyy = parentObject.children[aa].href;
-											xxyy = this.blockType(xxyy, scheme_configuration);
-											parentObject.children[aa].href = xxyy;
-										}
+								if(p[q].toLowerCase() == "href"){
+									if (scheme_configuration != "") {
+										var xxyy = parentObject.children[aa].href;
+										xxyy = this.blockType(xxyy, scheme_configuration);
+										parentObject.children[aa].href = xxyy;
 									}
 								}
 							}
