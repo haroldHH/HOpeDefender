@@ -22,52 +22,6 @@ Filtering : <img src=x onerror=alert(1)> -- becomes --> &lt;img src=x onerror=al
 
    * You can look at the examples about how to use this program in 'samples' folder.
 
-   * If you want to use this program automatically without cloning the project, put this code below in your html
-
-   ```html
-   <script>
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var result = this.responseText;
-            var hjs = document.createElement('script');
-            hjs.innerHTML = result;
-            document.body.appendChild(hjs);
-         }
-      };
-      xhttp.open("GET", "https://raw.githubusercontent.com/haroldHH/HOpeDefender/master/HOpeDefender.js");
-      xhttp.send();
-   </script>
-   ```
-
-   * NOTE : Put the code above below a body tag. This technique allows you to run HOpeDefender.js without CDN.
-       
-       ```html
-       <html>
-         <head>
-            <!-- Anything -->
-         </head>
-         <body>
-            <script>
-               var xhttp = new XMLHttpRequest();
-               xhttp.onreadystatechange = function() {
-                  if (this.readyState == 4 && this.status == 200) {
-                     var result = this.responseText;
-                     var hjs = document.createElement('script');
-                     hjs.innerHTML = result;
-                     document.body.appendChild(hjs);
-                  }
-               };
-               xhttp.open("GET", "https://raw.githubusercontent.com/haroldHH/HOpeDefender/master/HOpeDefender.js");
-               xhttp.send();
-            </script>
-            <!--
-               Anything you want to do
-            -->
-         </body>
-       </html>
-       ```
-
 ## Documentation
 
    Look at my [wiki](https://github.com/haroldHH/HOpeDefender/wiki) for the documentation of this project
